@@ -1,0 +1,60 @@
+div {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.wrapper {
+  display: grid;
+  /* define track-size */
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr 2fr 1fr 1fr;
+  height: 500px;
+  grid-gap: 5px;
+  /* grid-auto-rows: minmax(100px, auto); */
+
+  grid-template-areas: 
+    "header header header"
+    "section-a section-a sidebar"
+    "section-b section-b sidebar"
+    "section-c1 section-c2 sidebar";
+  
+  background-color: yellow;
+  margin: 100px;
+}
+
+@media (min-width: 1000px) {
+  .wrapper {
+    grid-template-areas: 
+    "header header header"
+    "sidebar section-a section-a"
+    "sidebar section-b section-b"
+    "sidebar section-c1 section-c2";
+  }
+}
+
+.item {
+  background-color: greenyellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.one {
+  grid-area: header;
+}
+.two {
+  justify-content: left;
+  grid-area: sidebar;
+}
+.three {
+  grid-area: section-a;
+}
+.four {
+  grid-area: section-b;
+}
+.five {
+  grid-area: section-c1;
+}
+.six {
+  grid-area: section-c2;
+}
