@@ -1,3 +1,6 @@
+// JSON Datasets
+// https://github.com/jdorfman/awesome-json-datasets#cars
+
 const fetch = require("node-fetch");
 
 // fetch(
@@ -19,6 +22,17 @@ function fetchJSON(url) {
     .catch(err => console.log(err.message));
 }
 
-fetchJSON(urls[2]);
+const carURL = "http://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes";
+function fetchCarJSON(url) {
+  fetch(url)
+    .then(response => response.text())
+    .then(text => text.slice(2, text.length - 2))
+    .then(slicedText => JSON.parse(slicedText))
+    .then(json => console.log(json))
+    .catch(err => console.log(err.message));
+}
 
-urls.forEach(url => fetchJSON(url));
+// fetchJSON(urls[2]);
+// urls.forEach(url => fetchJSON(url));
+
+fetchCarJSON(carURL);

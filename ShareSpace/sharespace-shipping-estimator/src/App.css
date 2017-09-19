@@ -1,0 +1,10 @@
+.App {
+  /* text-align: center; */
+  width: 500px;
+}
+
+.Input-Container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
