@@ -15,9 +15,11 @@ const Input = props => {
         floatingLabelFixed={true}
         value={distance}
         onChange={(e, i, v) => {
-          props.handleDistanceChange(+e.target.value);
+          const value = +e.target.value;
+          console.log("value --> ", value)
+          if (isNaN(+e.target.value)) return;
+          props.handleDistanceChange(value);
         }}
-        //hintText="Distance (mi)"
       />
       <div className="Item-Input-Container">
         <SelectField
@@ -32,33 +34,42 @@ const Input = props => {
           <MenuItem value="Chair" primaryText="Chair" />
           <MenuItem value="Lamp" primaryText="Lamp" />
           <MenuItem value="Bed" primaryText="Bed" />
+          <MenuItem value="Box" primaryText="Bed" />
         </SelectField>
         <TextField
           value={dimL}
           floatingLabelText="L"
           floatingLabelFixed={true}
           onChange={(e, i, v) => {
-            props.handleInputItemChange(+e.target.value, "dimL");
+            const value = +e.target.value;
+            if (isNaN(value)) return;
+            props.handleInputItemChange(value, "dimL");
           }}
-          style={{ width: "20px", margin: "10px" }}
+          style={{ width: "50px", margin: "10px" }}
         />
         <TextField
           value={dimW}
           floatingLabelText="W"
           floatingLabelFixed={true}
           onChange={(e, i, v) => {
-            props.handleInputItemChange(+e.target.value, "dimW");
+            console.log(typeof e.target.value);
+            const value = +e.target.value;
+            console.log(value);
+            if (isNaN(value)) return;
+            props.handleInputItemChange(value, "dimW");
           }}
-          style={{ width: "20px", margin: "10px" }}
+          style={{ width: "50px", margin: "10px" }}
         />
         <TextField
           value={dimH}
           floatingLabelText="H"
           floatingLabelFixed={true}
           onChange={(e, i, v) => {
-            props.handleInputItemChange(+e.target.value, "dimH");
+            const value = +e.target.value;
+            if (isNaN(value)) return;
+            props.handleInputItemChange(value, "dimH");
           }}
-          style={{ width: "20px", margin: "10px" }}
+          style={{ width: "50px", margin: "10px" }}
         />
         <Add onClick={props.handleItemSubmit} />
       </div>

@@ -12,6 +12,7 @@ import {
 import Clear from "material-ui/svg-icons/content/clear";
 
 const ItemTable = props => {
+  console.log(props.items);
   return (
     <Table>
       <TableHeader
@@ -31,7 +32,7 @@ const ItemTable = props => {
         {props.items.map((item, index) =>
           <TableRow key={index}>
             <TableRowColumn className="col-a">
-              <Clear />
+              <Clear onClick={() => props.handleItemRemove(index)} />
             </TableRowColumn>
             <TableRowColumn className="col-a">
               {index + 1}

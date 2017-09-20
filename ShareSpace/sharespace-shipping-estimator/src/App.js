@@ -14,8 +14,15 @@ class App extends Component {
     super(props);
     this.state = {
       distance: "",
+      // distance: 30,
       items: [],
       totalCharge: 0,
+      // inputItem: {
+      //   type: "Lamp",
+      //   dimL: 2,
+      //   dimH: 4,
+      //   dimW: 7
+      // }
       inputItem: {
         type: "",
         dimL: "",
@@ -26,10 +33,18 @@ class App extends Component {
     this.handleInputItemChange = this.handleInputItemChange.bind(this);
     this.handleItemSubmit = this.handleItemSubmit.bind(this);
     this.handleDistanceChange = this.handleDistanceChange.bind(this);
+    this.handleItemRemove = this.handleItemRemove.bind(this);
+  }
+
+  handleItemRemove(index) {
+    const newItems = [
+      ...this.state.items.slice(0, index),
+      ...this.state.items.slice(index + 1)
+    ];
+    this.setState({ items: newItems }, this.updateTotalCharge);
   }
 
   handleDistanceChange(val) {
-    // console.log(typeof val)
     this.setState({ distance: val }, this.updateItemCharges);
   }
 
@@ -40,15 +55,22 @@ class App extends Component {
   }
 
   handleItemSubmit() {
+    // assumptions
+    const maxDimension = 60;
+
     // organize arguments
     const distance = this.state.distance;
     const item = this.state.inputItem;
+    const dimensions = [item.dimH, item.dimL, item.dimW];
     const validTypes = ["Box", "Couch", "Chair", "Lamp", "Bed"];
 
     // check input item fields
     if (isNaN(distance)) return alert("Distance isn't a number");
-    if (isNaN(item.dimH) || isNaN(item.dimL) || isNaN(item.dimW))
+    if (dimensions.some(item => isNaN(item)))
       return alert("Dimensions invalid");
+    // if (isNaN(item.dimH) || isNaN(item.dimL) || isNaN(item.dimW))
+    //   return alert("Dimensions invalid");
+
     if (!validTypes.includes(item.type)) return alert("Item type not selected");
 
     const itemCharge = this.calcualteItemCharge(
@@ -56,7 +78,6 @@ class App extends Component {
       this.state.inputItem
     );
 
-    console.log(itemCharge);
     this.setState(
       {
         items: [...this.state.items, { ...this.state.inputItem, itemCharge }]
@@ -69,7 +90,10 @@ class App extends Component {
     // create a deep clone and update the item charge
     const newItems = this.state.items.map(e => {
       const newItem = { ...e };
-      newItem.charge = this.calcualteItemCharge(this.state.distance, newItem);
+      newItem.itemCharge = this.calcualteItemCharge(
+        this.state.distance,
+        newItem
+      );
       return newItem;
     });
 
@@ -77,7 +101,6 @@ class App extends Component {
   }
 
   updateTotalCharge() {
-    console.log("updating total");
     const totalCharge = this.state.items.reduce((a, c) => a + c.itemCharge, 0);
     this.setState({ totalCharge });
   }
@@ -88,27 +111,34 @@ class App extends Component {
       Couch: 50,
       Chair: 50,
       Lamp: 100,
-      Bed: 20
+      Bed: 20,
+      Box: 0
     };
     const costPerSqFtPerMile = 2;
+
+    // assumptions
+    const rotatable = {
+      Couch: false,
+      Chair: true,
+      Lamp: true,
+      Bed: true,
+      Box: true
+    };
 
     // organize function arguments
     const { type } = item;
     const dimensions = [item.dimL, item.dimH, item.dimW];
 
-    console.log(type);
-
+    // calculate the area the item takes up on the truck
     // use 2 largest dimensions to calculate area
-    const area = dimensions
-      .sort((a, b) => b - a)
-      .slice(0, 2)
-      .reduce((a, c) => a * c);
+    let area = rotatable[item]
+      ? dimensions.sort((a, b) => a - b).slice(0, 2).reduce((a, c) => a * c)
+      : item.dimL * item.dimW;
 
     // calculate charges
     const serviceCharge = serviceCharges[type];
     const distanceCharge = area * distance * costPerSqFtPerMile;
     const totalCharge = serviceCharge + distanceCharge;
-    console.log({ area, serviceCharge, distanceCharge, totalCharge });
     return totalCharge;
   }
 
@@ -131,6 +161,7 @@ class App extends Component {
             <ItemTable
               items={this.state.items}
               totalCharge={this.state.totalCharge}
+              handleItemRemove={this.handleItemRemove}
             />
           </Card>
         </MuiThemeProvider>
