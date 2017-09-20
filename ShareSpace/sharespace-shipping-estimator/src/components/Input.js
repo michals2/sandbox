@@ -5,44 +5,63 @@ import TextField from "material-ui/TextField";
 import Add from "material-ui/svg-icons/content/add-circle";
 
 const Input = props => {
-  console.log("props.inputItem -->", props.inputItem);
+  const { distance } = props;
+  const { dimL, dimH, dimW, type } = props.inputItem;
+
   return (
-    <div className="Input-Container">
-      <SelectField
-        floatingLabelText="Item Type"
-        value={props.inputItem.type}
-        onChange={(e, i, v) => {
-          props.handleInputItemChange(v, "type");
-        }}
-      >
-        <MenuItem value="Box" primaryText="Box" />
-        <MenuItem value="Couch" primaryText="Couch" />
-        <MenuItem value="Chair" primaryText="Chair" />
-        <MenuItem value="Lamp" primaryText="Lamp" />
-        <MenuItem value="Bed" primaryText="Bed" />
-      </SelectField>
+    <div>
       <TextField
+        floatingLabelText="Distance (mi)"
+        floatingLabelFixed={true}
+        value={distance}
         onChange={(e, i, v) => {
-          props.handleInputItemChange(+e.target.value, "dimL");
+          props.handleDistanceChange(+e.target.value);
         }}
-        hintText="L"
-        style={{ width: "20px", margin: "10px" }}
+        //hintText="Distance (mi)"
       />
-      <TextField
-        onChange={(e, i, v) => {
-          props.handleInputItemChange(+e.target.value, "dimW");
-        }}
-        hintText="W"
-        style={{ width: "20px", margin: "10px" }}
-      />
-      <TextField
-        onChange={(e, i, v) => {
-          props.handleInputItemChange(+e.target.value, "dimH");
-        }}
-        hintText="H"
-        style={{ width: "20px", margin: "10px" }}
-      />
-      <Add onClick={props.handleItemSubmit} />
+      <div className="Item-Input-Container">
+        <SelectField
+          floatingLabelText="Item Type"
+          value={type}
+          onChange={(e, i, v) => {
+            props.handleInputItemChange(v, "type");
+          }}
+        >
+          <MenuItem value="Box" primaryText="Box" />
+          <MenuItem value="Couch" primaryText="Couch" />
+          <MenuItem value="Chair" primaryText="Chair" />
+          <MenuItem value="Lamp" primaryText="Lamp" />
+          <MenuItem value="Bed" primaryText="Bed" />
+        </SelectField>
+        <TextField
+          value={dimL}
+          floatingLabelText="L"
+          floatingLabelFixed={true}
+          onChange={(e, i, v) => {
+            props.handleInputItemChange(+e.target.value, "dimL");
+          }}
+          style={{ width: "20px", margin: "10px" }}
+        />
+        <TextField
+          value={dimW}
+          floatingLabelText="W"
+          floatingLabelFixed={true}
+          onChange={(e, i, v) => {
+            props.handleInputItemChange(+e.target.value, "dimW");
+          }}
+          style={{ width: "20px", margin: "10px" }}
+        />
+        <TextField
+          value={dimH}
+          floatingLabelText="H"
+          floatingLabelFixed={true}
+          onChange={(e, i, v) => {
+            props.handleInputItemChange(+e.target.value, "dimH");
+          }}
+          style={{ width: "20px", margin: "10px" }}
+        />
+        <Add onClick={props.handleItemSubmit} />
+      </div>
     </div>
   );
 };

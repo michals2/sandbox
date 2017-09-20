@@ -8,6 +8,7 @@ import {
   TableRow,
   TableRowColumn
 } from "material-ui/Table";
+import Clear from "material-ui/svg-icons/content/clear";
 
 const ItemTable = props => {
   return (
@@ -22,6 +23,7 @@ const ItemTable = props => {
           <TableHeaderColumn>Type</TableHeaderColumn>
           <TableHeaderColumn>Dimensions</TableHeaderColumn>
           <TableHeaderColumn>Cost</TableHeaderColumn>
+          <TableHeaderColumn />
         </TableRow>
       </TableHeader>
       <TableBody displayRowCheckbox={false}>
@@ -37,6 +39,9 @@ const ItemTable = props => {
               {`${item.dimL} x ${item.dimW} x ${item.dimH}`}
             </TableRowColumn>
             <TableRowColumn>$4</TableRowColumn>
+            <TableRowColumn>
+              <Clear />
+            </TableRowColumn>
           </TableRow>
         )}
       </TableBody>

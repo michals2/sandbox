@@ -1,18 +1,31 @@
-handleInputChange(event, index, value) {
-  console.log(value);
-  const newInputItem = { ...this.state.inputItem };
-  newInputItem[value.field] = value.val;
-  this.setState({ inputItem: newInputItem });
+function calcualteItemPrice(distance, item) {
+  // givens
+  const serviceCharges = {
+    Couch: 50,
+    Char: 50,
+    Lamp: 100,
+    Bed: 20
+  };
+  const costPerSqFtPerMile = 2;
+
+  // organize function arguments
+  const { type } = item;
+  const dimensions = [item.dimL, item.dimH, item.dimW];
+
+  // use 2 largest dimensions to calculate area
+  const area = dimensions
+    .sort((a, b) => b - a)
+    .slice(0, 2)
+    .reduce((a, c) => a * c);
+
+  // calculate charges
+  const serviceCharge = serviceCharges[type];
+  const distanceCharge = area * distance * costPerSqFtPerMile;
+  const totalCharge = serviceCharge + distanceCharge;
+  return totalCharge;
 }
 
-<SelectField
-floatingLabelText="Item Type"
-value={props.inputItem.type}
-onChange={props.handleInputChange}
->
-<MenuItem value={{ field: "type", val: "box" }} primaryText="Box" />
-<MenuItem value={{ field: "type", val: "couch" }} primaryText="Couch" />
-<MenuItem value={{ field: "type", val: "chair" }} primaryText="Chair" />
-<MenuItem value={{ field: "type", val: "lamp" }} primaryText="Lamp" />
-<MenuItem value={{ field: "type", val: "bed" }} primaryText="Bed" />
-</SelectField>
+const item = { type: "Couch", dimL: 1, dimH: 1, dimW: 3 };
+const distance = 10;
+
+console.log(calcualteItemPrice(distance, item));

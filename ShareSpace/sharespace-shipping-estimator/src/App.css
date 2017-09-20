@@ -3,8 +3,12 @@
   width: 500px;
 }
 
-.Input-Container {
+.Item-Input-Container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.Distance-Input {
+  display: block;
 }
