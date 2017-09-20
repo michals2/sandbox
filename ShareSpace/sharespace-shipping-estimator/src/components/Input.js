@@ -4,8 +4,15 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import Add from "material-ui/svg-icons/content/add-circle";
 import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn
+} from "material-ui/Table";
 
 const Input = props => {
   const { distance } = props;
@@ -23,7 +30,64 @@ const Input = props => {
             props.handleDistanceChange(e.target.value);
           }}
         />
-        <RaisedButton label="Explanation of Costs" onClick={this.handleOpen} />
+        <RaisedButton
+          label="Explanation of Costs"
+          onClick={props.handleOpenDialog}
+        />
+        <Dialog
+          title="Explanation of Costs"
+          actions={
+            <RaisedButton label="Cancel" onClick={props.handleCloseDialog} />
+          }
+          modal={false}
+          open={props.dialogOpen}
+          onRequestClose={props.handleCloseDialog}
+        >
+          <p>
+            Item Shipping Cost = (Item Area (ft^2) * Distance (mi) * $2/ft^2/mi)
+            + Item Surcharge
+          </p>
+          <p>*Couches always use Width and Length to calculate Item Area</p>
+          <p>
+            *All other items use the 2 smallest dimensions to calculate Item
+            Area
+          </p>
+
+          <Table>
+            <TableHeader
+              displayRowCheckbox={false}
+              displaySelectAll={false}
+              adjustForCheckbox={false}
+            >
+              <TableRow>
+                <TableHeaderColumn>Type</TableHeaderColumn>
+                <TableHeaderColumn>Surcharge</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow>
+                <TableRowColumn>Box</TableRowColumn>
+                <TableRowColumn>No Charge</TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>Couch</TableRowColumn>
+                <TableRowColumn>$50</TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>Chair</TableRowColumn>
+                <TableRowColumn>$50</TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>Lamp</TableRowColumn>
+                <TableRowColumn>$100</TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>Bed</TableRowColumn>
+                <TableRowColumn>$20</TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Dialog>
       </div>
       <div className="Item-Input-Container">
         <SelectField
@@ -41,7 +105,7 @@ const Input = props => {
         </SelectField>
         <TextField
           value={dimL}
-          floatingLabelText="L"
+          floatingLabelText="L (ft)"
           floatingLabelFixed={true}
           onChange={(e, i, v) => {
             if (isNaN(+e.target.value)) return;
@@ -51,7 +115,7 @@ const Input = props => {
         />
         <TextField
           value={dimW}
-          floatingLabelText="W"
+          floatingLabelText="W (ft)"
           floatingLabelFixed={true}
           onChange={(e, i, v) => {
             if (isNaN(+e.target.value)) return;
@@ -61,7 +125,7 @@ const Input = props => {
         />
         <TextField
           value={dimH}
-          floatingLabelText="H"
+          floatingLabelText="H (ft)"
           floatingLabelFixed={true}
           onChange={(e, i, v) => {
             if (isNaN(+e.target.value)) return;

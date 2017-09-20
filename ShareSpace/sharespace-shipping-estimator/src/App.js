@@ -14,26 +14,30 @@ class App extends Component {
     super(props);
     this.state = {
       distance: "",
-      // distance: 30,
       items: [],
       totalCharge: 0,
-      // inputItem: {
-      //   type: "Lamp",
-      //   dimL: 2,
-      //   dimH: 4,
-      //   dimW: 7
-      // }
       inputItem: {
         type: "",
         dimL: "",
         dimH: "",
         dimW: ""
-      }
+      },
+      dialogOpen: false
     };
     this.handleInputItemChange = this.handleInputItemChange.bind(this);
     this.handleItemSubmit = this.handleItemSubmit.bind(this);
     this.handleDistanceChange = this.handleDistanceChange.bind(this);
     this.handleItemRemove = this.handleItemRemove.bind(this);
+    this.handleOpenDialog = this.handleOpenDialog.bind(this);
+    this.handleCloseDialog = this.handleCloseDialog.bind(this);
+  }
+
+  handleOpenDialog() {
+    this.setState({ dialogOpen: true });
+  }
+
+  handleCloseDialog() {
+    this.setState({ dialogOpen: false });
   }
 
   handleItemRemove(index) {
@@ -68,6 +72,10 @@ class App extends Component {
     if (isNaN(distance)) return alert("Distance isn't a number");
     if (dimensions.some(item => isNaN(item)))
       return alert("Dimensions invalid");
+    if (dimensions.some(item => item < 0 || item >= maxDimension))
+      return alert(
+        `Dimensions must be greater than 0 and less than ${maxDimension}`
+      );
     // if (isNaN(item.dimH) || isNaN(item.dimL) || isNaN(item.dimW))
     //   return alert("Dimensions invalid");
 
@@ -157,6 +165,9 @@ class App extends Component {
               handleInputItemChange={this.handleInputItemChange}
               handleItemSubmit={this.handleItemSubmit}
               handleDistanceChange={this.handleDistanceChange}
+              handleOpenDialog={this.handleOpenDialog}
+              handleCloseDialog={this.handleCloseDialog}
+              dialogOpen={this.state.dialogOpen}
             />
             <ItemTable
               items={this.state.items}
