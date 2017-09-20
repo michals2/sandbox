@@ -1,10 +1,10 @@
 ## Sharespace Shipping Cost Estimator
-## Instructions for running
+### Instructions for running
 1. Clone repo
 2. npm install
 3. npm start
 
-## Instructions for testing
+### Instructions for testing
 1. npm test
 
 ### Features
