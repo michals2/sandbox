@@ -3,6 +3,7 @@ import "./App.css";
 
 // Custom Components
 import Input from "./components/Input";
+import ItemTable from "./components/ItemTable";
 
 // Material-UI components
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
@@ -16,27 +17,25 @@ class App extends Component {
       total: 0,
       inputItem: {
         type: "",
-        dimensions: {
-          l: 0,
-          w: 0,
-          h: 0
-        }
+        dimL: 0,
+        dimH: 0,
+        dimW: 0
       }
     };
-    this.handleInputTypeChange = this.handleInputTypeChange.bind(this);
-    this.handleInputDimChange = this.handleInputDimChange.bind(this);
+    this.handleInputItemChange = this.handleInputItemChange.bind(this);
+    this.handleItemSubmit = this.handleItemSubmit.bind(this);
   }
 
-  handleInputTypeChange(event, index, value) {
+  handleInputItemChange(pl, field) {
     const newInputItem = { ...this.state.inputItem };
-    newInputItem.type = value;
+    newInputItem[field] = pl;
     this.setState({ inputItem: newInputItem });
   }
 
-  handleInputDimChange(event, index, value) {
-    const newInputItem = { ...this.state.inputItem };
-    newInputItem.dimensions = value;
-    this.setState({ inputItem: newInputItem });
+  handleItemSubmit() {
+    this.setState({
+      items: [...this.state.items, { ...this.state.inputItem }]
+    });
   }
 
   render() {
@@ -50,9 +49,10 @@ class App extends Component {
             />
             <Input
               inputItem={this.state.inputItem}
-              handleInputTypeChange={this.handleInputTypeChange}
-              handleInputDimChange={this.handleInputDimChange}
+              handleInputItemChange={this.handleInputItemChange}
+              handleItemSubmit={this.handleItemSubmit}
             />
+            <ItemTable items={this.state.items} />
           </Card>
         </MuiThemeProvider>
       </div>

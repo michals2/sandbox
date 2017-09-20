@@ -5,23 +5,44 @@ import TextField from "material-ui/TextField";
 import Add from "material-ui/svg-icons/content/add-circle";
 
 const Input = props => {
+  console.log("props.inputItem -->", props.inputItem);
   return (
     <div className="Input-Container">
       <SelectField
         floatingLabelText="Item Type"
         value={props.inputItem.type}
-        onChange={props.handleInputTypeChange}
+        onChange={(e, i, v) => {
+          props.handleInputItemChange(v, "type");
+        }}
       >
-        <MenuItem value={"box"} primaryText="Box" />
-        <MenuItem value={"couch"} primaryText="Couch" />
-        <MenuItem value={"chair"} primaryText="Chair" />
-        <MenuItem value={"lamp"} primaryText="Lamp" />
-        <MenuItem value={"bed"} primaryText="Bed" />
+        <MenuItem value="Box" primaryText="Box" />
+        <MenuItem value="Couch" primaryText="Couch" />
+        <MenuItem value="Chair" primaryText="Chair" />
+        <MenuItem value="Lamp" primaryText="Lamp" />
+        <MenuItem value="Bed" primaryText="Bed" />
       </SelectField>
-      <TextField hintText="L" style={{ width: "20px", margin: "10px" }} />
-      <TextField hintText="W" style={{ width: "20px", margin: "10px" }} />
-      <TextField hintText="H" style={{ width: "20px", margin: "10px" }} />
-      <Add />
+      <TextField
+        onChange={(e, i, v) => {
+          props.handleInputItemChange(+e.target.value, "dimL");
+        }}
+        hintText="L"
+        style={{ width: "20px", margin: "10px" }}
+      />
+      <TextField
+        onChange={(e, i, v) => {
+          props.handleInputItemChange(+e.target.value, "dimW");
+        }}
+        hintText="W"
+        style={{ width: "20px", margin: "10px" }}
+      />
+      <TextField
+        onChange={(e, i, v) => {
+          props.handleInputItemChange(+e.target.value, "dimH");
+        }}
+        hintText="H"
+        style={{ width: "20px", margin: "10px" }}
+      />
+      <Add onClick={props.handleItemSubmit} />
     </div>
   );
 };
