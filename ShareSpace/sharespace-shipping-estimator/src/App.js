@@ -59,9 +59,9 @@ class App extends Component {
     const maxDimension = 60;
 
     // organize arguments
-    const distance = this.state.distance;
+    const distance = +this.state.distance;
     const item = this.state.inputItem;
-    const dimensions = [item.dimH, item.dimL, item.dimW];
+    const dimensions = [+item.dimH, +item.dimL, +item.dimW];
     const validTypes = ["Box", "Couch", "Chair", "Lamp", "Bed"];
 
     // check input item fields
@@ -91,7 +91,7 @@ class App extends Component {
     const newItems = this.state.items.map(e => {
       const newItem = { ...e };
       newItem.itemCharge = this.calcualteItemCharge(
-        this.state.distance,
+        +this.state.distance,
         newItem
       );
       return newItem;
@@ -127,7 +127,7 @@ class App extends Component {
 
     // organize function arguments
     const { type } = item;
-    const dimensions = [item.dimL, item.dimH, item.dimW];
+    const dimensions = [+item.dimL, +item.dimH, +item.dimW];
 
     // calculate the area the item takes up on the truck
     // use 2 largest dimensions to calculate area

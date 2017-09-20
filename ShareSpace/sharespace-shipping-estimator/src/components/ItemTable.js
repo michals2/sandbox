@@ -10,9 +10,11 @@ import {
   TableRowColumn
 } from "material-ui/Table";
 import Clear from "material-ui/svg-icons/content/clear";
+import Info from "material-ui/svg-icons/action/info-outline";
+import IconButton from "material-ui/IconButton";
 
 const ItemTable = props => {
-  console.log(props.items);
+  const explanationText = "Item cost = $2/mi/ft^2 + Item surcharge";
   return (
     <Table>
       <TableHeader
@@ -25,7 +27,23 @@ const ItemTable = props => {
           <TableHeaderColumn className="col-a">Item #</TableHeaderColumn>
           <TableHeaderColumn className="col-a">Type</TableHeaderColumn>
           <TableHeaderColumn className="col-b">Dimensions</TableHeaderColumn>
-          <TableHeaderColumn className="col-a">Cost</TableHeaderColumn>
+          <TableHeaderColumn className="col-a">
+            <div className="cost-container">
+              <span>Cost</span>
+              <IconButton
+                tooltip={explanationText}
+                tooltipPosition="bottom-left"
+              >
+                <Info
+                  style={{
+                    width: 15,
+                    height: 15,
+                    padding: 5
+                  }}
+                />
+              </IconButton>
+            </div>
+          </TableHeaderColumn>
         </TableRow>
       </TableHeader>
       <TableBody displayRowCheckbox={false}>
