@@ -1,6 +1,6 @@
 .App {
   /* text-align: center; */
-  width: 500px;
+  width: 600px;
 }
 
 .Item-Input-Container {
@@ -11,4 +11,11 @@
 
 .Distance-Input {
   display: block;
+}
+
+/* .col-a {
+  width: 50px;
+} */
+.col-b {
+  width: 100px;
 }

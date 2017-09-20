@@ -4,6 +4,7 @@ import {
   Table,
   TableBody,
   TableHeader,
+  TableFooter,
   TableHeaderColumn,
   TableRow,
   TableRowColumn
@@ -19,32 +20,38 @@ const ItemTable = props => {
         adjustForCheckbox={false}
       >
         <TableRow>
-          <TableHeaderColumn>Item #</TableHeaderColumn>
-          <TableHeaderColumn>Type</TableHeaderColumn>
-          <TableHeaderColumn>Dimensions</TableHeaderColumn>
-          <TableHeaderColumn>Cost</TableHeaderColumn>
-          <TableHeaderColumn />
+          <TableHeaderColumn className="col-a">Remove</TableHeaderColumn>
+          <TableHeaderColumn className="col-a">Item #</TableHeaderColumn>
+          <TableHeaderColumn className="col-a">Type</TableHeaderColumn>
+          <TableHeaderColumn className="col-b">Dimensions</TableHeaderColumn>
+          <TableHeaderColumn className="col-a">Cost</TableHeaderColumn>
         </TableRow>
       </TableHeader>
       <TableBody displayRowCheckbox={false}>
         {props.items.map((item, index) =>
           <TableRow key={index}>
-            <TableRowColumn>
-              {index}
-            </TableRowColumn>
-            <TableRowColumn>
-              {item.type}
-            </TableRowColumn>
-            <TableRowColumn>
-              {`${item.dimL} x ${item.dimW} x ${item.dimH}`}
-            </TableRowColumn>
-            <TableRowColumn>$4</TableRowColumn>
-            <TableRowColumn>
+            <TableRowColumn className="col-a">
               <Clear />
             </TableRowColumn>
+            <TableRowColumn className="col-a">
+              {index + 1}
+            </TableRowColumn>
+            <TableRowColumn className="col-a">
+              {item.type}
+            </TableRowColumn>
+            <TableRowColumn className="col-b">
+              {`${item.dimL}' x ${item.dimW}' x ${item.dimH}'`}
+            </TableRowColumn>
+            <TableRowColumn className="col-a">{`$${item.itemCharge}`}</TableRowColumn>
           </TableRow>
         )}
       </TableBody>
+      <TableFooter adjustForCheckbox={false}>
+        <TableRow>
+          <TableRowColumn colSpan="4">Total Shipping Cost</TableRowColumn>
+          <TableRowColumn>{`$${props.totalCharge}`}</TableRowColumn>
+        </TableRow>
+      </TableFooter>
     </Table>
   );
 };

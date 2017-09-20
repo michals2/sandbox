@@ -29,7 +29,8 @@ class App extends Component {
   }
 
   handleDistanceChange(val) {
-    this.setState({ distance: val });
+    // console.log(typeof val)
+    this.setState({ distance: val }, this.updateItemCharges);
   }
 
   handleInputItemChange(pl, field) {
@@ -39,20 +40,53 @@ class App extends Component {
   }
 
   handleItemSubmit() {
+    // organize arguments
+    const distance = this.state.distance;
+    const item = this.state.inputItem;
+    const validTypes = ["Box", "Couch", "Chair", "Lamp", "Bed"];
+
+    // check input item fields
+    if (isNaN(distance)) return alert("Distance isn't a number");
+    if (isNaN(item.dimH) || isNaN(item.dimL) || isNaN(item.dimW))
+      return alert("Dimensions invalid");
+    if (!validTypes.includes(item.type)) return alert("Item type not selected");
+
     const itemCharge = this.calcualteItemCharge(
       this.state.distance,
       this.state.inputItem
     );
-    this.setState({
-      items: [...this.state.items, { ...this.state.inputItem, itemCharge }]
+
+    console.log(itemCharge);
+    this.setState(
+      {
+        items: [...this.state.items, { ...this.state.inputItem, itemCharge }]
+      },
+      this.updateTotalCharge
+    );
+  }
+
+  updateItemCharges() {
+    // create a deep clone and update the item charge
+    const newItems = this.state.items.map(e => {
+      const newItem = { ...e };
+      newItem.charge = this.calcualteItemCharge(this.state.distance, newItem);
+      return newItem;
     });
+
+    this.setState({ items: newItems }, this.updateTotalCharge);
+  }
+
+  updateTotalCharge() {
+    console.log("updating total");
+    const totalCharge = this.state.items.reduce((a, c) => a + c.itemCharge, 0);
+    this.setState({ totalCharge });
   }
 
   calcualteItemCharge(distance, item) {
     // givens
     const serviceCharges = {
       Couch: 50,
-      Char: 50,
+      Chair: 50,
       Lamp: 100,
       Bed: 20
     };
@@ -61,6 +95,8 @@ class App extends Component {
     // organize function arguments
     const { type } = item;
     const dimensions = [item.dimL, item.dimH, item.dimW];
+
+    console.log(type);
 
     // use 2 largest dimensions to calculate area
     const area = dimensions
@@ -72,6 +108,7 @@ class App extends Component {
     const serviceCharge = serviceCharges[type];
     const distanceCharge = area * distance * costPerSqFtPerMile;
     const totalCharge = serviceCharge + distanceCharge;
+    console.log({ area, serviceCharge, distanceCharge, totalCharge });
     return totalCharge;
   }
 
@@ -91,7 +128,10 @@ class App extends Component {
               handleItemSubmit={this.handleItemSubmit}
               handleDistanceChange={this.handleDistanceChange}
             />
-            <ItemTable items={this.state.items} />
+            <ItemTable
+              items={this.state.items}
+              totalCharge={this.state.totalCharge}
+            />
           </Card>
         </MuiThemeProvider>
       </div>
