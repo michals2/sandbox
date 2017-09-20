@@ -173,6 +173,9 @@ class App extends Component {
               items={this.state.items}
               totalCharge={this.state.totalCharge}
               handleItemRemove={this.handleItemRemove}
+              handleOpenDialog={this.handleOpenDialog}
+              handleCloseDialog={this.handleCloseDialog}
+              dialogOpen={this.state.dialogOpen}
             />
           </Card>
         </MuiThemeProvider>

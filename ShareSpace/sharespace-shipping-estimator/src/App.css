@@ -1,6 +1,6 @@
 .App {
   /* text-align: center; */
-  width: 600px;
+  width: 700px;
 }
 
 .Item-Input-Container {
@@ -13,16 +13,17 @@
   display: block;
 }
 
-/* .col-a {
-  width: 50px;
-} */
-.col-b {
-  width: 100px;
+.col-a {
+  column-width: 50px;
+  /* width: 50px; */
 }
+/* .col-b {
+  width: 100px;
+} */
 .cost-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 }
 .info-icon {
   height: 10px;
